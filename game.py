@@ -18,19 +18,23 @@ def start():
     #Establish basics for turns
     turns = 0
     status = "alive"
-
+    mHealth = 1
     #Game loop
     while status == "alive":
-        print("A zombie has appeared infront of you!!!")
+        mob = enemy.zombie()
+        mHealth = mob[1]
+        print("A", mob[0], "has appeared infront of you!!!")
         sleep(2)
         print("1,Shoot\n2,Stab")
-
-        action = int(input("Action:"))
-        if action == 1:
-            pass
-        elif action == 2:
-            pass
-        else:
-            print("You can't do that.")
+        while status == "alive" and mHealth > 0:
+            action = int(input("Action:"))
+            if action == 1:
+                mHealth -= 2
+                print(mHealth)
+            elif action == 2:
+                mHealth -= 1
+                print(mHealth)
+            else:
+                print("You can't do that.")
         turns += 1
     print("You have survived", turns, "encounters")
