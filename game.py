@@ -72,5 +72,7 @@ def start():
             print("\033[A                             \033[A")
             print("\033[A                             \033[A")
         turns += 1
+        for i in range(action_number+2):
+            print("\033[A                                       \033[A")
     print("You have survived", turns, "encounters")
     sleep(10)
