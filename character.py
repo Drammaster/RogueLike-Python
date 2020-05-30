@@ -1,3 +1,5 @@
-def surviver():
+def establish_player():
     health = 10
-    return(health)
+    inventory = [1]
+    return(health, inventory)
+
