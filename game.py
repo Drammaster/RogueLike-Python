@@ -46,14 +46,31 @@ def start():
 
         while player_health > 0 and mob_health > 0:
             action = int(input("Action:"))
-            if action >= action_number:
-                damage = items.item_damage(player_inventory[action-1])
-                mob_health -= damage
-                player_health -= mob_attack
+            
+            if action <= action_number and action > 0:
+                effect = items.item_effect(player_inventory[action-1])
+                
+                if effect[0] == "damage":
+                    mob_health -= effect[1]
+                    player_health -= mob_attack
+                    sleep(1)
+                elif effect[0] == "heal":
+                    player_health += effect[1]
+                    player_health -= mob_attack
+                    sleep(1)
+                
                 print("Player health:", player_health)
                 print(mob[0], "health:", mob_health)
+                sleep(3)
+            
             else:
                 print("You can't do that.")
+                print("")
+                sleep(2)
+            
+            print("\033[A                             \033[A")
+            print("\033[A                             \033[A")
+            print("\033[A                             \033[A")
         turns += 1
     print("You have survived", turns, "encounters")
     sleep(10)
