@@ -8,7 +8,13 @@ def main():
     #Intro screen
     print("Welcom to my rogue like game")
     print("Please select what you would like to do")
-    print("1,New Game\n2,Load Save\n3,Exit")
+    sleep(0.5)
+    print("1, New Game")
+    sleep(0.5)
+    print("2, Load Game")
+    sleep(0.5)
+    print("3, Exit Game")
+    sleep(0.5)
     enter = input("Choice:")
     enter = int(enter)
     if enter == 1: #New Game

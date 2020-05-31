@@ -17,7 +17,8 @@ def start():
     sleep(2)
     print("Inventory:")
     for i in player_inventory:
-        print(items.item_name(i))
+        sleep(0.5)
+        print(items.item_name(i[0]))
     sleep(1)
     print("You must now go for as long as you can. Good luck!")
     sleep(5)
@@ -41,38 +42,56 @@ def start():
         action_number = 0
         for i in player_inventory:
             action_number += 1
-            print(action_number, ",", items.item_name(i))
-        
+            print(action_number, ",", items.item_name(i[0]))
+        print("Player health:", player_health)
+        print(str(mob[0]) + " health:", mob_health)
 
+        #Begin Combat
         while player_health > 0 and mob_health > 0:
-            action = int(input("Action:"))
+            action = int(input("Action:")) #User Action
             
-            if action <= action_number and action > 0:
-                effect = items.item_effect(player_inventory[action-1])
-                
-                if effect[0] == "damage":
-                    mob_health -= effect[1]
-                    player_health -= mob_attack
-                    sleep(1)
-                elif effect[0] == "heal":
-                    player_health += effect[1]
-                    player_health -= mob_attack
-                    sleep(1)
-                
-                print("Player health:", player_health)
-                print(mob[0], "health:", mob_health)
-                sleep(3)
+            if action <= action_number and action > 0: #Check action is doable
+                if player_inventory[action-1][1] > 0: #Check item can still be used
+                    effect = items.item_effect(player_inventory[action-1][0]) #Load Item effect
+                    
+                    if effect[0] == "ranged":
+                        mob_health -= effect[1]
+                        player_health -= mob_attack
+                        player_inventory[action-1][1] -= 1
+                        sleep(0.5)
+
+                    elif effect[0] == "melee":
+                        mob_health -= effect[1]
+                        player_health -= mob_attack * 2
+                        player_inventory[action-1][1] -= 2
+                        sleep(0.5)
+
+                    elif effect[0] == "heal":
+                        player_health += effect[1]
+                        player_health -= mob_attack
+                        player_inventory[action-1][1] -= 1
+                        sleep(0.5)
+                    
+                    #Update Health
+                    print("\033[A                             \033[A")
+                    print("\033[A                             \033[A")
+                    print("\033[A                             \033[A")
+                    print("Player health:", player_health)
+                    print(mob[0], "health:", mob_health)
+                    sleep(0.5)
+
+                else:
+                    print("You don't have anymore of this item")
             
-            else:
+            else: #Invalid index exceptionb handler
                 print("You can't do that.")
                 print("")
                 sleep(2)
-            
-            print("\033[A                             \033[A")
-            print("\033[A                             \033[A")
-            print("\033[A                             \033[A")
+                print("\033[A                             \033[A")
+                print("\033[A                             \033[A")
+                print("\033[A                             \033[A")
+          
         turns += 1
-        for i in range(action_number+2):
-            print("\033[A                                       \033[A")
+        clear()
     print("You have survived", turns, "encounters")
     sleep(10)
